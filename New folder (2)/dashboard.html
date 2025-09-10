@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShikshaDisha - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 ShikshaDisha</h1>
+      <p>Welcome to your personalized career guidance platform!</p>
+    </header>
+
+    <main>
+      <div class="card-grid">
+        <div class="card" onclick="navigate('quiz.html')">
+          <h3>📝 Career Assessment Quiz</h3>
+          <p>Answer 25 questions to find your ideal career path.</p>
+        </div>
+
+        <div class="card" onclick="navigate('scholarships.html')">
+          <h3>💰 Scholarships Portal</h3>
+          <p>Explore the NSP portal and discover government scholarships.</p>
+        </div>
+
+        <div class="card" onclick="navigate('result.html')">
+          <h3>📊 Recommendations</h3>
+          <p>View your career recommendations after completing the quiz.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <button class="btn-primary" onclick="navigate('index.html')">Log Out</button>
+    </footer>
+  </div>
+</body>
+</html>

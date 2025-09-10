@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShikshaDisha - Scholarships</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h2>💰 Scholarships Portal</h2>
+      <p>Search scholarships from the <strong>National Scholarship Portal (NSP)</strong>.</p>
+    </header>
+
+    <div class="filters">
+      <select id="stateFilter">
+        <option value="">Select State</option>
+        <option>Jammu & Kashmir</option>
+        <option>Bihar</option>
+        <option>Maharashtra</option>
+        <option>Karnataka</option>
+        <option>Tamil Nadu</option>
+        <option>Uttar Pradesh</option>
+      </select>
+
+      <select id="categoryFilter">
+        <option value="">Select Category</option>
+        <option>SC</option>
+        <option>ST</option>
+        <option>OBC</option>
+        <option>General</option>
+        <option>EWS</option>
+      </select>
+      <button class="btn-primary">Search</button>
+    </div>
+
+    <iframe src="https://scholarships.gov.in" class="scholarship-frame"></iframe>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShikshaDisha - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Language Selection Popup -->
+  <div id="languagePopup" class="popup-overlay">
+    <div class="popup">
+      <h2>Select Your Language</h2>
+      <select id="languageSelector">
+        <option value="en">🌐 English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="ml">മലയാളം</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="mr">मराठी</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="ur">اردو</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ks">کٲشُر</option>
+        <option value="sd">سنڌي</option>
+        <option value="kok">कोंकणी</option>
+        <option value="mai">मैथिली</option>
+        <option value="ne">नेपाली</option>
+        <option value="bho">भोजपुरी</option>
+        <option value="dog">डोगरी</option>
+        <option value="mni">মণিপুরী</option>
+        <option value="sat">ᱥᱟᱱᱛᱟᱲᱤ</option>
+      </select>
+      <button class="btn-primary" onclick="selectLanguage()">Continue</button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Left Section: Branding -->
+    <div class="left-panel">
+      <h1>ShikshaDisha</h1>
+      <p>Your trusted personalized career and education guidance platform.</p>
+      <ul>
+        <li>👤 Personalized career suggestions</li>
+        <li>📘 Explore courses and colleges</li>
+        <li>💰 Scholarship guidance</li>
+      </ul>
+    </div>
+
+    <!-- Right Section: Login Form -->
+    <div class="right-panel">
+      <h2>Welcome Back!</h2>
+      <p>Sign in to your ShikshaDisha account</p>
+
+      <form onsubmit="navigate('dashboard.html'); return false;">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password *</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Enter your password" required>
+          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <div class="options">
+          <label><input type="checkbox"> Remember me</label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Sign In</button>
+      </form>
+
+      <p class="signup-text">Don't have an account? <a href="#">Create one</a></p>
+
+      <div class="divider">OR</div>
+
+      <div class="social-login">
+        <button class="google">🌐 Continue with Google</button>
+        <button class="microsoft">🖥️ Continue with Microsoft</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
