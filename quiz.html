@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShikshaDisha - Assessment</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="app.js" defer></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f6fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #2d89ef;
+      margin-right: auto;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #2d89ef;
+    }
+
+    .container {
+      display: flex;
+      margin: 2rem;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      color: #2d89ef;
+    }
+
+    .sidebar .section {
+      margin: 1rem 0;
+    }
+
+    .sidebar .section button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      background: #2d89ef;
+      color: white;
+      cursor: pointer;
+    }
+
+    .timer {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #f1f1f1;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .question-scenario {
+      background: #f1f1f1;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .option {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .option:hover {
+      background: #e0f0ff;
+      border-color: #2d89ef;
+    }
+
+    .progress-bar-container {
+      background: #e0e0e0;
+      border-radius: 5px;
+      height: 12px;
+      margin: 1rem 0;
+    }
+
+    .progress-bar {
+      background-color: #2d89ef;
+      height: 12px;
+      width: 40%;
+      border-radius: 5px;
+    }
+
+    .btn-next {
+      background: #2d89ef;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">ShikshaDisha</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="assessment.html">Assessment</a>
+      <a href="courses.html">Explore Courses</a>
+      <a href="career-paths.html">Career Paths</a>
+      <a href="find-colleges.html">Find Colleges</a>
+      <select class="language-selector" onchange="setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Assessment Sections</h3>
+      <p>Complete all sections for accurate results</p>
+
+      <div class="section">
+        <button onclick="navigate('aptitude.html')">🧠 Aptitude Assessment (25 questions)</button>
+        <button disabled>❤️ Interest Evaluation (20 questions)</button>
+        <button disabled>👤 Personality Traits (15 questions)</button>
+      </div>
+
+      <div class="timer">
+        <h2 id="time-remaining">29:44</h2>
+        <p>Started - 1% elapsed</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="main-content">
+      <div class="question-header">
+        <span>Question 2</span>
+        <span style="color: orange;">Medium</span>
+      </div>
+
+      <h2>Based on the scenario above, what would be the most appropriate action?</h2>
+
+      <div class="question-scenario">
+        <strong>Scenario:</strong>
+        <p>You are working on a group project with tight deadlines. One team member consistently misses meetings and doesn't complete assigned tasks on time. The project success depends on everyone's contribution.</p>
+      </div>
+
+      <div class="options">
+        <div class="option">A. Ignore the issue and complete their work yourself</div>
+        <div class="option">B. Discuss the problem privately with the team member first</div>
+        <div class="option">C. Immediately report to the supervisor</div>
+        <div class="option">D. Remove them from the project</div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar" style="width: 40%;"></div>
+      </div>
+
+      <button class="btn-next" onclick="navigate('next-question.html')">Next →</button>
+    </section>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        assessmentSections: "Assessment Sections",
+        completeSections: "Complete all sections for accurate results",
+        aptitudeAssessment: "🧠 Aptitude Assessment (25 questions)",
+        interestEvaluation: "❤️ Interest Evaluation (20 questions)",
+        personalityTraits: "👤 Personality Traits (15 questions)",
+        timeRemaining: "Time Remaining",
+        questionHeader: "Question",
+        difficulty: "Medium",
+        questionText: "Based on the scenario above, what would be the most appropriate action?",
+        scenarioLabel: "Scenario:",
+        scenarioText: "You are working on a group project with tight deadlines. One team member consistently misses meetings and doesn't complete assigned tasks on time. The project success depends on everyone's contribution.",
+        optionA: "A. Ignore the issue and complete their work yourself",
+        optionB: "B. Discuss the problem privately with the team member first",
+        optionC: "C. Immediately report to the supervisor",
+        optionD: "D. Remove them from the project",
+        nextButton: "Next →"
+      },
+      hi: {
+        assessmentSections: "मूल्यांकन अनुभाग",
+        completeSections: "सटीक परिणाम के लिए सभी अनुभाग पूरे करें",
+        aptitudeAssessment: "🧠 सामर्थ्य मूल्यांकन (25 प्रश्न)",
+        interestEvaluation: "❤️ रुचि मूल्यांकन (20 प्रश्न)",
+        personalityTraits: "👤 व्यक्तित्व लक्षण (15 प्रश्न)",
+        timeRemaining: "बचा हुआ समय",
+        questionHeader: "प्रश्न",
+        difficulty: "मध्यम",
+        questionText: "उपरोक्त परिदृश्य के आधार पर, सबसे उचित कार्रवाई क्या होगी?",
+        scenarioLabel: "परिदृश्य:",
+        scenarioText: "आप एक समूह परियोजना पर काम कर रहे हैं जिसमें कड़े समयसीमा हैं। एक टीम सदस्य लगातार बैठकों में नहीं आता और समय पर असाइन किए गए कार्य पूरे नहीं करता। परियोजना की सफलता सभी का योगदान निर्भर करती है।",
+        optionA: "A. समस्या को अनदेखा करें और उनका काम खुद पूरा करें",
+        optionB: "B. पहले टीम सदस्य के साथ समस्या को निजी रूप से चर्चा करें",
+        optionC: "C. तुरंत पर्यवेक्षक को रिपोर्ट करें",
+        optionD: "D. उन्हें परियोजना से हटा दें",
+        nextButton: "अगला →"
+      }
+    };
+
+    function setLanguage(lang) {
+      const t = translations[lang];
+
+      document.querySelector('.sidebar h3').textContent = t.assessmentSections;
+      document.querySelector('.sidebar p').textContent = t.completeSections;
+      document.querySelectorAll('.section button')[0].textContent = t.aptitudeAssessment;
+      document.querySelectorAll('.section button')[1].textContent = t.interestEvaluation;
+      document.querySelectorAll('.section button')[2].textContent = t.personalityTraits;
+      document.querySelector('.timer h2').textContent = "29:44";
+      
+      document.querySelector('.question-header span:nth-child(1)').textContent = `${t.questionHeader} 2`;
+      document.querySelector('.question-header span:nth-child(2)').textContent = t.difficulty;
+      document.querySelector('h2').textContent = t.questionText;
+      document.querySelector('.question-scenario strong').textContent = t.scenarioLabel;
+      document.querySelector('.question-scenario p').textContent = t.scenarioText;
+
+      const options = document.querySelectorAll('.option');
+      options[0].textContent = t.optionA;
+      options[1].textContent = t.optionB;
+      options[2].textContent = t.optionC;
+      options[3].textContent = t.optionD;
+
+      document.querySelector('.btn-next').textContent = t.nextButton;
+    }
+
+    setLanguage('en'); // Default language
+  </script>
+</body>
+
+</html>
