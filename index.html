@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShikshaDisha - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex flex-col bg-cover bg-center"
+  style="background-image:linear-gradient(rgba(255,255,255,0.75),rgba(255,255,255,0.75)),url('https://img.freepik.com/premium-photo/young-asian-indian-college-students-reading-books-studying-laptop-preparing-exam-working-group-project-while-sitting-grass-staircase-steps-college-campus_466689-8630.jpg');">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center p-3 bg-white/90 shadow">
+    <div class="text-blue-600 font-bold text-lg">ShikshaDisha</div>
+    <select id="languageSelect" onchange="setLanguage(this.value)"
+      class="border rounded px-2 py-1 text-sm">
+      <option value="en">English</option>
+      <option value="as">অসমীয়া</option>
+      <option value="bn">বাংলা</option>
+      <option value="brx">बड़ो</option>
+      <option value="doi">डोगरी</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="hi">हिन्दी</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="ks">کٔشُر</option>
+      <option value="kok">कोंकणी</option>
+      <option value="mai">मैथिली</option>
+      <option value="ml">മലയാളം</option>
+      <option value="mni">মৈতেইলোন / ꯃꯩꯇꯩꯂꯣꯟ</option>
+      <option value="mr">मराठी</option>
+      <option value="ne">नेपाली</option>
+      <option value="or">ଓଡ଼ିଆ</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+      <option value="sa">संस्कृतम्</option>
+      <option value="sat">ᱥᱟᱱᱛᱟᱲᱤ</option>
+      <option value="sd">سنڌي</option>
+      <option value="ta">தமிழ்</option>
+      <option value="te">తెలుగు</option>
+      <option value="ur">اردو</option>
+    </select>
+  </header>
+
+  <!-- Branding -->
+  <div class="text-center py-3">
+    <h1 class="text-2xl font-bold">ShikshaDisha</h1>
+    <p class="text-gray-600 text-sm">Your trusted personalized career and education guidance platform.</p>
+  </div>
+
+  <!-- Login Panel -->
+  <main class="flex justify-center items-center flex-grow">
+    <div class="bg-white/90 p-5 rounded-xl shadow-md w-full max-w-sm">
+      <h2 id="login-title" class="text-center text-xl font-semibold">Welcome Back!</h2>
+      <p id="login-subtext" class="text-center text-gray-600 text-sm mb-4">Sign in to your ShikshaDisha account</p>
+
+      <form onsubmit="navigate('dashboard.html'); return false;" class="flex flex-col">
+        <label for="email" id="email-label" class="text-sm font-medium mb-1">Email Address *</label>
+        <input type="email" id="email" placeholder="Enter your email" required
+          class="border rounded px-3 py-2 text-sm mb-3" />
+
+        <label for="password" id="password-label" class="text-sm font-medium mb-1">Password *</label>
+        <div class="relative mb-3">
+          <input type="password" id="password" placeholder="Enter your password" required
+            class="border rounded px-3 py-2 text-sm w-full" />
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 text-sm"
+            onclick="togglePassword()">👁️</span>
+        </div>
+
+        <div class="flex justify-between items-center text-xs mb-3">
+          <label><input type="checkbox" class="mr-1"> <span id="remember-text">Remember me</span></label>
+          <a href="#" class="text-blue-600 hover:underline" id="forgot-text">Forgot password?</a>
+        </div>
+
+        <button type="submit" id="signin-btn"
+          class="bg-blue-600 hover:bg-blue-700 text-white rounded py-2 text-sm font-medium">Sign In</button>
+      </form>
+
+      <p id="signup-text" class="text-center text-xs mt-3">
+        Don't have an account? <a href="#" class="text-blue-600 hover:underline">Create one</a>
+      </p>
+
+      <div class="text-center text-gray-500 text-xs my-3">OR</div>
+
+      <div class="flex flex-col gap-2">
+        <button class="bg-red-600 hover:bg-red-700 text-white rounded py-2 text-sm">🌐 Continue with Google</button>
+        <button class="bg-blue-700 hover:bg-blue-800 text-white rounded py-2 text-sm">📘 Continue with Facebook</button>
+        <button class="bg-black hover:bg-gray-900 text-white rounded py-2 text-sm">🖥️ Continue with Microsoft</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- JS -->
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    const translations = {
+      en: {
+        loginTitle: "Welcome Back!",
+        loginSubtext: "Sign in to your ShikshaDisha account",
+        emailLabel: "Email Address *",
+        passwordLabel: "Password *",
+        rememberText: "Remember me",
+        forgotText: "Forgot password?",
+        signInBtn: "Sign In",
+        signupText: "Don't have an account? <a href='#' class='text-blue-600 hover:underline'>Create one</a>"
+      },
+      hi: {
+        loginTitle: "वापसी पर स्वागत है",
+        loginSubtext: "अपने शिक्षा दिशा खाते में साइन इन करें",
+        emailLabel: "ईमेल पता *",
+        passwordLabel: "पासवर्ड *",
+        rememberText: "मुझे याद रखें",
+        forgotText: "पासवर्ड भूल गए?",
+        signInBtn: "साइन इन करें",
+        signupText: "खाता नहीं है? <a href='#' class='text-blue-600 hover:underline'>खाता बनाएँ</a>"
+      },
+      as: {
+        loginTitle: "আবার স্বাগতম!",
+        loginSubtext: "আপোনাৰ ShikshaDisha একাউণ্টত সাইন-ইন কৰক",
+        emailLabel: "ইমেইল ঠিকনা *",
+        passwordLabel: "পাছৱৰ্ড *",
+        rememberText: "মোক মনত ৰাখিব",
+        forgotText: "পাছৱৰ্ড পাহৰি গ'ল?",
+        signInBtn: "সাইন-ইন কৰক",
+        signupText: "একাউণ্ট নাথাকে? <a href='#' class='text-blue-600 hover:underline'>নতুন একাউণ্ট খোলক</a>"
+      },
+      bn: {
+        loginTitle: "ফিরে এসে স্বাগত!",
+        loginSubtext: "আপনার ShikshaDisha অ্যাকাউন্টে সাইন ইন করুন",
+        emailLabel: "ইমেল ঠিকানা *",
+        passwordLabel: "পাসওয়ার্ড *",
+        rememberText: "আমাকে মনে রাখো",
+        forgotText: "পাসওয়ার্ড ভুলে গেছেন?",
+        signInBtn: "সাইন ইন করুন",
+        signupText: "অ্যাকাউন্ট নেই? <a href='#' class='text-blue-600 hover:underline'>নতুন তৈরি করুন</a>"
+      },
+      gu: {
+        loginTitle: "પુનરાગમન પર સ્વાગત છે!",
+        loginSubtext: "તમારા ShikshaDisha ખાતામાં સાઇન ઇન કરો",
+        emailLabel: "ઈમેલ સરનામું *",
+        passwordLabel: "પાસવર્ડ *",
+        rememberText: "મને યાદ રાખજો",
+        forgotText: "પાસવર્ડ ભૂલી ગયા છો?",
+        signInBtn: "સાઇન ઇન કરો",
+        signupText: "એકાઉન્ટ નથી? <a href='#' class='text-blue-600 hover:underline'>નવું બનાવો</a>"
+      },
+      ta: {
+        loginTitle: "இனிய வரவேற்பு!",
+        loginSubtext: "உங்கள் ShikshaDisha கணக்கில் உள்நுழைக",
+        emailLabel: "மின்னஞ்சல் முகவரி *",
+        passwordLabel: "கடவுச்சொல் *",
+        rememberText: "என்னை நினைவில் வைக்கவும்",
+        forgotText: "கடவுச்சொல்லை மறவினாளா?",
+        signInBtn: "உள்நுழையவும்",
+        signupText: "கணக்கு இல்லையென்றால்? <a href='#' class='text-blue-600 hover:underline'>புதியதை உருவாக்கவும்</a>"
+      },
+      te: {
+        loginTitle: "మళ్ళీ స్వాగతం!",
+        loginSubtext: "మీ ShikshaDisha ఖాతాలో సైన్ ఇన్ చేయండి",
+        emailLabel: "ఇమెయిల్ చిరునామా *",
+        passwordLabel: "పాస్వర్డ్ *",
+        rememberText: "నన్ను గుర్తు పెట్టుకో",
+        forgotText: "పాస్వర్డ్ మర్చిపోయారా?",
+        signInBtn: "సైన్ ఇన్ చేయండి",
+        signupText: "ఖాతా లేదు? <a href='#' class='text-blue-600 hover:underline'>కొత్త ఖాతా సృష్టించండి</a>"
+      },
+      pa: {
+        loginTitle: "ਵਾਪਸੀ ਉੱਤੇ ਸਵਾਗਤ ਹੈ!",
+        loginSubtext: "ਆਪਣੇ ShikshaDisha ਖਾਤੇ ਵਿੱਚ ਸਾਈਨ ਇਨ ਕਰੋ",
+        emailLabel: "ਈਮੇਲ ਪਤਾ *",
+        passwordLabel: "ਪਾਸਵਰਡ *",
+        rememberText: "ਮੈਂਨੂੰ ਯਾਦ ਕਰੋ",
+        forgotText: "ਪਾਸਵਰਡ ਭੁੱਲ ਗਏ?",
+        signInBtn: "ਸਾਈਨ ਇਨ ਕਰੋ",
+        signupText: "ਖਾਤਾ ਨਹੀਂ ਹੈ? <a href='#' class='text-blue-600 hover:underline'>ਨਵਾਂ ਬਣਾਓ</a>"
+      },
+      mr: {
+        loginTitle: "पुन्हा स्वागत आहे!",
+        loginSubtext: "आपल्या ShikshaDisha खात्यात साइन इन करा",
+        emailLabel: "ईमेल पत्ता *",
+        passwordLabel: "पासवर्ड *",
+        rememberText: "मला लक्षात ठेवा",
+        forgotText: "पासवर्ड विसरलात?",
+        signInBtn: "साइन इन करा",
+        signupText: "खाते नाहीये? <a href='#' class='text-blue-600 hover:underline'>नवे तयार करा</a>"
+      },
+      ne: {
+        loginTitle: "फेरि स्वागत छ!",
+        loginSubtext: "तपाईंको ShikshaDisha खाता मा साइन इन गर्नुहोस्",
+        emailLabel: "इमेल ठेगाना *",
+        passwordLabel: "पासवर्ड *",
+        rememberText: "मलाई सम्झनुहोस्",
+        forgotText: "पासवर्ड भुल्नुभयो?",
+        signInBtn: "साइन इन गर्नुहोस्",
+        signupText: "खाता छैन? <a href='#' class='text-blue-600 hover:underline'>नयाँ खाता खोल्नुहोस्</a>"
+      },
+      ur: {
+        loginTitle: "خوش آمدید دوبارہ!",
+        loginSubtext: "اپنے ShikshaDisha اکاؤنٹ میں سائن ان کریں",
+        emailLabel: "ای میل ایڈریس *",
+        passwordLabel: "پاس ورڈ *",
+        rememberText: "مجھے یاد رکھیں",
+        forgotText: "پاس ورڈ بھول گئے؟",
+        signInBtn: "سائن ان کریں",
+        signupText: "اکاؤنٹ نہیں ہے؟ <a href='#' class='text-blue-600 hover:underline'>اکاؤنٹ بنائیں</a>"
+      },
+    ks: {
+        loginTitle: "پَتہ وارے خۄش آمَدید!",
+        loginSubtext: "آپَن ShikshaDisha کاؤنٹ مَن سائن اِن کَرِو",
+        emailLabel: "ای میل پتہ *",
+        passwordLabel: "پاس ؤرڈ *",
+        rememberText: "مَے یاد رَکھیو",
+        forgotText: "پاس ؤرڈ بھۄل گۄم؟",
+        signInBtn: "سائن اِن کَرِو",
+        signupText: "کاؤنٹ نئہ آ؟ <a href='#' class='text-blue-600 hover:underline'>نوٚ کاؤنٹ بَنَو</a>"
+      },
+    doi: {
+        loginTitle: "आग्गे आऐन तैं स्वागत ऐ!",
+        loginSubtext: "अपणे ShikshaDisha खाता विच लॉग इन करो",
+        emailLabel: "ई-मेल पता *",
+        passwordLabel: "पासवर्ड *",
+        rememberText: "मैनू याद रखो",
+        forgotText: "पासवर्ड भूलेआँ?",
+        signInBtn: "लॉग इन करो",
+        signupText: "खाता नई ऐ? <a href='#' class='text-blue-600 hover:underline'>नवा खाता बनाओ</a>"
+      },
+
+    };
+
+    function setLanguage(lang) {
+      const t = translations[lang] || translations['en'];
+      document.getElementById('login-title').innerHTML = t.loginTitle;
+      document.getElementById('login-subtext').innerHTML = t.loginSubtext;
+      document.getElementById('email-label').innerHTML = t.emailLabel;
+      document.getElementById('password-label').innerHTML = t.passwordLabel;
+      document.getElementById('remember-text').innerHTML = t.rememberText;
+      document.getElementById('forgot-text').innerHTML = t.forgotText;
+      document.getElementById('signin-btn').innerHTML = t.signInBtn;
+      document.getElementById('signup-text').innerHTML = t.signupText;
+    }
+
+    window.onload = () => setLanguage('en');
+  </script>
+</body>
+</html>
