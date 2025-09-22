@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Counselor - ShikshaDisha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-graduation-cap text-2xl text-purple-600 mr-2"></i>
+                        <span class="text-xl font-bold text-gray-800">ShikshaDisha</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-800 hover:text-purple-600 font-semibold transition duration-300 hover:scale-105 transform">Home</a>
+                    <a href="quiz.html" class="text-gray-800 hover:text-purple-600 font-semibold transition duration-300 hover:scale-105 transform">Assessment</a>
+                    <a href="colleges.html" class="text-gray-800 hover:text-purple-600 font-semibold transition duration-300 hover:scale-105 transform">Colleges</a>
+                    <a href="scholarships.html" class="text-gray-800 hover:text-purple-600 font-semibold transition duration-300 hover:scale-105 transform">Scholarships</a>
+                    <a href="chatbot.html" class="text-purple-600 font-semibold border-b-2 border-purple-600">AI Counselor</a>
+                    <a href="dashboard.html" class="text-gray-800 hover:text-purple-600 font-semibold transition duration-300 hover:scale-105 transform">Dashboard</a>
+                    <a href="login.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 hover:scale-105 transform transition duration-300 font-semibold shadow-lg">Login</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Chat Interface -->
+    <div class="pt-16 min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <!-- Chat Header -->
+            <div class="bg-white rounded-t-xl shadow-lg p-6 border-b">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">AI Career Counselor</h2>
+                        <p class="text-sm text-green-600 flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            Online - Ready to help
+                        </p>
+                    </div>
+                    <div class="ml-auto">
+                        <button class="text-gray-500 hover:text-gray-700 transition duration-300">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chatMessages" class="bg-white shadow-lg h-96 overflow-y-auto p-6 space-y-4">
+                <!-- Welcome Message -->
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-white text-sm"></i>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                        <p class="text-gray-800">Hello! I'm your AI Career Counselor. I'm here to help you with career guidance, college selection, scholarships, and exam preparation. How can I assist you today?</p>
+                        <span class="text-xs text-gray-500 mt-2 block">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="bg-white shadow-lg p-4 border-t">
+                <p class="text-sm text-gray-600 mb-3">Quick Actions:</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <button onclick="sendQuickMessage('I want career guidance')" class="bg-purple-100 text-purple-700 px-3 py-2 rounded-lg text-sm hover:bg-purple-200 transition duration-300">
+                        <i class="fas fa-compass mr-1"></i>Career Guidance
+                    </button>
+                    <button onclick="sendQuickMessage('Help me find colleges')" class="bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-sm hover:bg-blue-200 transition duration-300">
+                        <i class="fas fa-university mr-1"></i>Find Colleges
+                    </button>
+                    <button onclick="sendQuickMessage('Show me scholarships')" class="bg-green-100 text-green-700 px-3 py-2 rounded-lg text-sm hover:bg-green-200 transition duration-300">
+                        <i class="fas fa-money-bill-wave mr-1"></i>Scholarships
+                    </button>
+                    <button onclick="sendQuickMessage('Exam preparation help')" class="bg-orange-100 text-orange-700 px-3 py-2 rounded-lg text-sm hover:bg-orange-200 transition duration-300">
+                        <i class="fas fa-book mr-1"></i>Exam Prep
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="bg-white rounded-b-xl shadow-lg p-4">
+                <div class="flex items-center space-x-3">
+                    <button class="text-gray-500 hover:text-gray-700 transition duration-300">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="messageInput" 
+                            placeholder="Type your message here..." 
+                            class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-purple-500 focus:outline-none transition duration-300"
+                            onkeypress="handleKeyPress(event)"
+                        >
+                    </div>
+                    <button 
+                        onclick="sendMessage()" 
+                        class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 hover:scale-105 transform transition duration-300 font-semibold shadow-lg"
+                    >
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Features Sidebar -->
+        <div class="fixed right-4 top-1/2 transform -translate-y-1/2 hidden lg:block">
+            <div class="bg-white rounded-xl shadow-lg p-4 w-64">
+                <h3 class="font-bold text-gray-800 mb-4">AI Counselor Features</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-brain text-purple-600 mr-2"></i>
+                        Personalized Career Recommendations
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-search text-blue-600 mr-2"></i>
+                        Smart College Matching
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-graduation-cap text-green-600 mr-2"></i>
+                        Scholarship Discovery
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-chart-line text-orange-600 mr-2"></i>
+                        Exam Strategy Planning
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clock text-red-600 mr-2"></i>
+                        24/7 Availability
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-graduation-cap text-2xl text-purple-400 mr-2"></i>
+                        <span class="text-xl font-bold">ShikshaDisha</span>
+                    </div>
+                    <p class="text-gray-400">Empowering students to make informed career decisions through AI-powered guidance and comprehensive resources.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="quiz.html" class="hover:text-white transition duration-300">Career Assessment</a></li>
+                        <li><a href="colleges.html" class="hover:text-white transition duration-300">College Directory</a></li>
+                        <li><a href="scholarships.html" class="hover:text-white transition duration-300">Scholarships</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition duration-300">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ShikshaDisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                
+                // Simulate AI response after a delay
+                setTimeout(() => {
+                    generateAIResponse(message);
+                }, 1000);
+            }
+        }
+
+        function sendQuickMessage(message) {
+            addUserMessage(message);
+            setTimeout(() => {
+                generateAIResponse(message);
+            }, 1000);
+        }
+
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start space-x-3 justify-end';
+            
+            messageDiv.innerHTML = `
+                <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg p-4 max-w-md">
+                    <p>${message}</p>
+                    <span class="text-xs text-purple-100 mt-2 block">Just now</span>
+                </div>
+                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-user text-gray-600 text-sm"></i>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAIMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start space-x-3';
+            
+            messageDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-white text-sm"></i>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                    <p class="text-gray-800">${message}</p>
+                    <span class="text-xs text-gray-500 mt-2 block">Just now</span>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'flex items-start space-x-3';
+            
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-white text-sm"></i>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Comprehensive Knowledge Base for Rule-Based AI
+        const knowledgeBase = {
+            careers: {
+                engineering: {
+                    fields: ['Computer Science', 'Mechanical', 'Electrical', 'Civil', 'Chemical', 'Aerospace', 'Biomedical'],
+                    skills: ['Problem-solving', 'Mathematics', 'Analytical thinking', 'Technical aptitude'],
+                    salary: '₹3-25 LPA',
+                    growth: 'High demand, especially in tech and automation'
+                },
+                medical: {
+                    fields: ['MBBS', 'BDS', 'BAMS', 'BHMS', 'Nursing', 'Pharmacy', 'Physiotherapy'],
+                    skills: ['Empathy', 'Attention to detail', 'Scientific aptitude', 'Communication'],
+                    salary: '₹4-50 LPA',
+                    growth: 'Always in demand, stable career with social impact'
+                },
+                business: {
+                    fields: ['MBA', 'BBA', 'Commerce', 'Economics', 'Finance', 'Marketing', 'HR'],
+                    skills: ['Leadership', 'Communication', 'Strategic thinking', 'Networking'],
+                    salary: '₹3-30 LPA',
+                    growth: 'Versatile field with opportunities across industries'
+                },
+                creative: {
+                    fields: ['Design', 'Animation', 'Film', 'Music', 'Writing', 'Photography', 'Fashion'],
+                    skills: ['Creativity', 'Artistic vision', 'Technical skills', 'Innovation'],
+                    salary: '₹2-20 LPA',
+                    growth: 'Growing digital economy creating new opportunities'
+                }
+            },
+            colleges: {
+                engineering: ['IIT Delhi', 'IIT Bombay', 'NIT Trichy', 'BITS Pilani', 'VIT Vellore'],
+                medical: ['AIIMS Delhi', 'CMC Vellore', 'JIPMER', 'KGMU', 'MAMC Delhi'],
+                business: ['IIM Ahmedabad', 'IIM Bangalore', 'XLRI', 'FMS Delhi', 'ISB Hyderabad'],
+                arts: ['JNU', 'DU', 'BHU', 'Jamia Millia', 'Presidency College']
+            },
+            exams: {
+                engineering: {
+                    name: 'JEE Main & Advanced',
+                    subjects: ['Physics', 'Chemistry', 'Mathematics'],
+                    tips: 'Focus on NCERT, solve previous years, practice daily'
+                },
+                medical: {
+                    name: 'NEET',
+                    subjects: ['Physics', 'Chemistry', 'Biology'],
+                    tips: 'Master NCERT thoroughly, focus on Biology, practice MCQs'
+                },
+                management: {
+                    name: 'CAT, XAT, SNAP',
+                    subjects: ['Quantitative Aptitude', 'Verbal Ability', 'Logical Reasoning'],
+                    tips: 'Read newspapers, practice mental math, improve vocabulary'
+                }
+            }
+        };
+
+        // User context tracking
+        let userContext = {
+            interests: [],
+            currentTopic: null,
+            askedQuestions: [],
+            preferences: {}
+        };
+
+        function generateAIResponse(userMessage) {
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                
+                const response = processUserInput(userMessage);
+                addAIMessage(response.message);
+                
+                if (response.suggestions) {
+                    setTimeout(() => {
+                        addFollowUpSuggestions(response.suggestions);
+                    }, 500);
+                }
+            }, 1500 + Math.random() * 1000); // Variable response time for realism
+        }
+
+        function processUserInput(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Extract keywords and context
+            const keywords = extractKeywords(lowerMessage);
+            updateUserContext(keywords, lowerMessage);
+            
+            // Generate contextual response
+            if (keywords.includes('career') || keywords.includes('guidance')) {
+                return handleCareerGuidance(lowerMessage);
+            } else if (keywords.includes('college') || keywords.includes('university')) {
+                return handleCollegeQueries(lowerMessage);
+            } else if (keywords.includes('scholarship') || keywords.includes('financial')) {
+                return handleScholarshipQueries(lowerMessage);
+            } else if (keywords.includes('exam') || keywords.includes('preparation')) {
+                return handleExamQueries(lowerMessage);
+            } else if (keywords.includes('engineering')) {
+                return handleEngineeringQueries(lowerMessage);
+            } else if (keywords.includes('medical') || keywords.includes('doctor')) {
+                return handleMedicalQueries(lowerMessage);
+            } else if (keywords.includes('business') || keywords.includes('mba')) {
+                return handleBusinessQueries(lowerMessage);
+            } else if (keywords.includes('salary') || keywords.includes('package')) {
+                return handleSalaryQueries(lowerMessage);
+            } else if (keywords.includes('hello') || keywords.includes('hi')) {
+                return handleGreeting();
+            } else {
+                return handleGenericQuery(lowerMessage);
+            }
+        }
+
+        function extractKeywords(message) {
+            const commonWords = ['the', 'is', 'at', 'which', 'on', 'a', 'an', 'and', 'or', 'but', 'in', 'with', 'to', 'for', 'of', 'as', 'by'];
+            return message.toLowerCase().split(' ').filter(word => 
+                word.length > 2 && !commonWords.includes(word)
+            );
+        }
+
+        function updateUserContext(keywords, message) {
+            // Track user interests
+            if (keywords.includes('engineering')) userContext.interests.push('engineering');
+            if (keywords.includes('medical')) userContext.interests.push('medical');
+            if (keywords.includes('business')) userContext.interests.push('business');
+            
+            // Set current topic
+            if (keywords.includes('career')) userContext.currentTopic = 'career';
+            if (keywords.includes('college')) userContext.currentTopic = 'college';
+            if (keywords.includes('exam')) userContext.currentTopic = 'exam';
+        }
+
+        function handleCareerGuidance(message) {
+            if (message.includes('engineering')) {
+                const career = knowledgeBase.careers.engineering;
+                return {
+                    message: `Engineering is an excellent choice! Here's what you should know:
+
+🔧 **Popular Fields**: ${career.fields.join(', ')}
+💡 **Key Skills**: ${career.skills.join(', ')}
+💰 **Salary Range**: ${career.salary}
+📈 **Growth Prospects**: ${career.growth}
+
+Engineering offers diverse opportunities from software development to aerospace innovation. Which engineering field interests you most?`,
+                    suggestions: ['Computer Science details', 'Mechanical Engineering scope', 'Electrical Engineering career', 'Which engineering is best?']
+                };
+            } else if (message.includes('medical')) {
+                const career = knowledgeBase.careers.medical;
+                return {
+                    message: `Medical field is noble and rewarding! Here's the overview:
+
+🏥 **Career Options**: ${career.fields.join(', ')}
+💡 **Essential Skills**: ${career.skills.join(', ')}
+💰 **Salary Range**: ${career.salary}
+📈 **Career Outlook**: ${career.growth}
+
+Medical careers offer job security and the satisfaction of helping others. Are you interested in becoming a doctor, or exploring other medical fields?`,
+                    suggestions: ['MBBS career path', 'Alternative medical careers', 'NEET preparation', 'Medical college admission']
+                };
+            } else {
+                return {
+                    message: `I'd love to help you explore career options! To give you the best guidance, let me know:
+
+🎯 **Your Interests**: What subjects do you enjoy most?
+💪 **Your Strengths**: Are you good at problem-solving, creativity, or communication?
+🎓 **Preferred Field**: Technical, Medical, Business, or Creative?
+📍 **Future Goals**: Do you want to work in India or abroad?
+
+Based on your answers, I can suggest the perfect career path for you!`,
+                    suggestions: ['I like Science & Math', 'I prefer Arts & Creativity', 'I enjoy Business & Economics', 'I want to help people']
+                };
+            }
+        }
+
+        function handleCollegeQueries(message) {
+            if (message.includes('engineering')) {
+                return {
+                    message: `Here are top engineering colleges in India:
+
+🏆 **Premier Institutes**:
+• IIT Delhi - Fees: ₹2.5L/year, Cutoff: JEE Adv Rank <500
+• IIT Bombay - Fees: ₹2.5L/year, Cutoff: JEE Adv Rank <300
+• NIT Trichy - Fees: ₹1.5L/year, Cutoff: JEE Main <5000
+
+🎓 **Private Options**:
+• BITS Pilani - Fees: ₹4.5L/year, Admission: BITSAT
+• VIT Vellore - Fees: ₹2L/year, Admission: VITEEE
+
+💡 **Selection Tips**: Focus on JEE preparation, maintain good Class 12 scores, and have backup options ready!`,
+                    suggestions: ['JEE preparation strategy', 'Private vs Government colleges', 'Engineering branch selection', 'College placement records']
+                };
+            } else if (message.includes('medical')) {
+                return {
+                    message: `Top medical colleges for aspiring doctors:
+
+🏥 **Government Medical Colleges**:
+• AIIMS Delhi - Fees: ₹1.5L total, Cutoff: NEET AIR <100
+• JIPMER - Fees: ₹2L total, Cutoff: NEET AIR <500
+• KGMU Lucknow - Fees: ₹1L/year, Cutoff: NEET AIR <2000
+
+🎓 **Private Medical Colleges**:
+• CMC Vellore - Fees: ₹8L/year, Merit-based admission
+• Manipal - Fees: ₹15L/year, NEET + Entrance
+
+📚 **Admission Key**: NEET is mandatory for all medical admissions. Score 600+ for government seats!`,
+                    suggestions: ['NEET preparation plan', 'Medical college fees comparison', 'MBBS vs other medical courses', 'State quota vs All India quota']
+                };
+            } else {
+                return {
+                    message: `I can help you find the perfect college! Let me know:
+
+📚 **Course Interest**: Engineering, Medical, Business, Arts, or Science?
+📍 **Location Preference**: Any specific state or city?
+💰 **Budget Range**: Government (low fees) or Private (higher fees)?
+🎯 **College Type**: Research-focused, Industry-oriented, or General?
+
+With these details, I can suggest colleges that match your profile perfectly!`,
+                    suggestions: ['Engineering colleges', 'Medical colleges', 'Business schools', 'Arts & Science colleges']
+                };
+            }
+        }
+
+        function handleScholarshipQueries(message) {
+            return {
+                message: `Great! Here are scholarship opportunities based on different criteria:
+
+💰 **Government Scholarships**:
+• National Scholarship Portal - Up to ₹75,000/year
+• PM Scholarship - ₹30,000/year (Defence families)
+• Merit-cum-Means - ₹20,000/year
+
+🏢 **Private Scholarships**:
+• Tata Scholarship - ₹2,00,000/year (IIT students)
+• Reliance Foundation - ₹6,00,000 total
+• Kishore Vaigyanik - ₹80,000/year (Science students)
+
+🌍 **International Options**:
+• Fulbright - $50,000/year (USA)
+• Commonwealth - Full funding (UK)
+• Erasmus Mundus - €24,000/year (Europe)
+
+What's your current education level and family income range? This will help me suggest the most suitable scholarships!`,
+                suggestions: ['Merit-based scholarships', 'Need-based financial aid', 'International scholarships', 'How to apply for scholarships']
+            };
+        }
+
+        function handleExamQueries(message) {
+            if (message.includes('jee')) {
+                const exam = knowledgeBase.exams.engineering;
+                return {
+                    message: `JEE Preparation Strategy:
+
+📚 **Subjects**: ${exam.subjects.join(', ')}
+⏰ **Timeline**: Start 2 years before (Class 11)
+📖 **Study Plan**: 
+• Physics: Focus on mechanics, electricity, modern physics
+• Chemistry: Organic reactions, inorganic properties, physical chemistry
+• Mathematics: Calculus, coordinate geometry, algebra
+
+💡 **Success Tips**: ${exam.tips}
+
+🎯 **Target**: JEE Main 250+ for NITs, JEE Advanced 200+ for IITs
+
+Would you like a detailed month-wise study plan or specific subject strategies?`,
+                    suggestions: ['JEE Main vs Advanced', 'Best books for JEE', 'JEE study schedule', 'Mock test strategy']
+                };
+            } else if (message.includes('neet')) {
+                const exam = knowledgeBase.exams.medical;
+                return {
+                    message: `NEET Preparation Guide:
+
+📚 **Subjects**: ${exam.subjects.join(', ')}
+🎯 **Weightage**: Biology (50%), Chemistry (25%), Physics (25%)
+📖 **Strategy**:
+• Biology: Focus on NCERT, practice diagrams
+• Chemistry: Organic reactions + NCERT inorganic
+• Physics: Mechanics, optics, modern physics
+
+💡 **Key Tips**: ${exam.tips}
+
+🏆 **Target Score**: 600+ for government medical colleges
+
+Need help with specific subjects or a detailed study timetable?`,
+                    suggestions: ['NEET Biology strategy', 'NEET Chemistry tips', 'NEET Physics preparation', 'NEET mock tests']
+                };
+            } else {
+                return {
+                    message: `I can help you prepare for various competitive exams:
+
+🎓 **Engineering**: JEE Main, JEE Advanced, BITSAT, VITEEE
+🏥 **Medical**: NEET, AIIMS, JIPMER
+💼 **Management**: CAT, XAT, SNAP, MAT
+⚖️ **Law**: CLAT, AILET, LSAT
+🎨 **Design**: NIFT, NID, CEED
+
+Which exam are you preparing for? I'll provide a detailed preparation strategy, important topics, and study schedule tailored to that specific exam!`,
+                    suggestions: ['JEE preparation', 'NEET strategy', 'CAT preparation', 'CLAT study plan']
+                };
+            }
+        }
+
+        function handleEngineeringQueries(message) {
+            return {
+                message: `Engineering Career Deep Dive:
+
+💻 **Computer Science Engineering**:
+• Job Roles: Software Developer, Data Scientist, AI Engineer
+• Companies: Google, Microsoft, Amazon, TCS, Infosys
+• Average Package: ₹6-25 LPA
+
+⚙️ **Mechanical Engineering**:
+• Job Roles: Design Engineer, Production Manager, R&D
+• Companies: Tata Motors, Mahindra, L&T, Bajaj
+• Average Package: ₹4-15 LPA
+
+⚡ **Electrical Engineering**:
+• Job Roles: Power Engineer, Control Systems, Electronics
+• Companies: BHEL, Siemens, ABB, Schneider
+• Average Package: ₹5-18 LPA
+
+Which engineering branch matches your interests? I can provide more specific guidance!`,
+                suggestions: ['Computer Science scope', 'Mechanical Engineering jobs', 'Electrical vs Electronics', 'Best engineering branch']
+            };
+        }
+
+        function handleMedicalQueries(message) {
+            return {
+                message: `Medical Career Comprehensive Guide:
+
+👨‍⚕️ **MBBS (Bachelor of Medicine)**:
+• Duration: 5.5 years (including internship)
+• Specializations: 40+ options after NEET PG
+• Career: Private practice, hospital jobs, research
+
+🦷 **BDS (Dental)**:
+• Duration: 5 years
+• Scope: Dental clinics, hospitals, research
+• Investment: Lower than MBBS, good returns
+
+💊 **Pharmacy**:
+• Duration: 4 years (B.Pharm)
+• Jobs: Pharmaceutical companies, hospitals, research
+• Growth: High demand in drug development
+
+🏥 **Nursing**:
+• Duration: 4 years (B.Sc Nursing)
+• Opportunities: Hospitals, abroad jobs, administration
+• Stability: Always in demand globally
+
+Which medical field interests you most? I can provide detailed career paths and admission requirements!`,
+                suggestions: ['MBBS career details', 'Dental career scope', 'Pharmacy opportunities', 'Nursing abroad jobs']
+            };
+        }
+
+        function handleBusinessQueries(message) {
+            return {
+                message: `Business & Management Career Options:
+
+📊 **MBA (Master of Business Administration)**:
+• Specializations: Finance, Marketing, HR, Operations
+• Top Colleges: IIMs, XLRI, FMS, ISB
+• Package Range: ₹8-50 LPA
+
+💰 **Finance Careers**:
+• Roles: Investment Banking, Financial Analyst, CA
+• Companies: Goldman Sachs, JP Morgan, Big 4
+• Growth: High earning potential
+
+📈 **Marketing & Sales**:
+• Roles: Brand Manager, Digital Marketing, Sales
+• Companies: HUL, P&G, Google, Facebook
+• Skills: Creativity + Analytics
+
+🏢 **Entrepreneurship**:
+• Start your own business
+• Government support: Startup India, funding schemes
+• Risk vs Reward: High potential, requires planning
+
+What aspect of business interests you most? I can guide you through the specific path!`,
+                suggestions: ['MBA preparation', 'Finance career path', 'Marketing opportunities', 'How to start a business']
+            };
+        }
+
+        function handleSalaryQueries(message) {
+            return {
+                message: `Salary Expectations by Field (Fresh Graduates):
+
+💻 **Engineering**:
+• Software: ₹4-25 LPA (varies by company)
+• Core Engineering: ₹3-12 LPA
+• Top Companies: ₹15-50 LPA
+
+🏥 **Medical**:
+• MBBS: ₹4-15 LPA (hospital jobs)
+• Private Practice: ₹10-50 LPA (after experience)
+• Specialization: ₹20-100 LPA
+
+💼 **Business/Management**:
+• MBA from IIM: ₹15-50 LPA
+• Regular MBA: ₹4-15 LPA
+• Finance roles: ₹6-30 LPA
+
+📈 **Growth Factors**:
+• Skills and certifications
+• Company and location
+• Performance and experience
+• Market demand
+
+Remember: Salary grows significantly with experience and skills. Focus on learning and building expertise!`,
+                suggestions: ['Highest paying careers', 'How to increase salary', 'Skills for better packages', 'Career growth tips']
+            };
+        }
+
+        function handleGreeting() {
+            const greetings = [
+                "Hello! I'm your AI Career Counselor. Ready to explore your future career possibilities?",
+                "Hi there! Welcome to ShikshaDisha. I'm here to guide you through your career journey!",
+                "Greetings! Let's discover the perfect career path for you. What would you like to know?",
+                "Hello! I'm excited to help you plan your career. What's on your mind today?"
+            ];
+            
+            return {
+                message: greetings[Math.floor(Math.random() * greetings.length)],
+                suggestions: ['Career guidance', 'College recommendations', 'Scholarship information', 'Exam preparation help']
+            };
+        }
+
+        function handleGenericQuery(message) {
+            const responses = [
+                "That's an interesting question! I specialize in career guidance, college selection, scholarships, and exam preparation. How can I help you in these areas?",
+                "I'd love to help you with that! My expertise covers career planning, educational guidance, and exam strategies. What specific information do you need?",
+                "Great question! I'm designed to assist with career decisions and educational planning. Could you tell me more about what you're looking for?",
+                "I'm here to guide you through your educational and career journey. Whether it's choosing a career, finding colleges, or exam preparation - I'm ready to help!"
+            ];
+            
+            return {
+                message: responses[Math.floor(Math.random() * responses.length)],
+                suggestions: ['Tell me about engineering', 'Medical career options', 'Business opportunities', 'Exam preparation tips']
+            };
+        }
+
+        function addFollowUpSuggestions(suggestions) {
+            const chatMessages = document.getElementById('chatMessages');
+            const suggestionsDiv = document.createElement('div');
+            suggestionsDiv.className = 'flex items-start space-x-3';
+            
+            let suggestionsHTML = suggestions.map(suggestion => 
+                `<button onclick="sendQuickMessage('${suggestion}')" class="bg-purple-100 text-purple-700 px-3 py-2 rounded-lg text-sm hover:bg-purple-200 transition duration-300 mr-2 mb-2">${suggestion}</button>`
+            ).join('');
+            
+            suggestionsDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-white text-sm"></i>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-4 max-w-md">
+                    <p class="text-gray-800 text-sm mb-3">Quick suggestions:</p>
+                    <div class="flex flex-wrap">
+                        ${suggestionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(suggestionsDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9823988416bf3a3f',t:'MTc1ODM5NTE0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

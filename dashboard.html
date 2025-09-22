@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShikshaDisha - Dynamic Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .notification-badge {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">ShikshaDisha</span>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="login.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </a>
+                    <a href="chatbot.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center relative">
+                        <i class="fas fa-robot mr-2"></i>AI Counsellor
+                        <span class="notification-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </a>
+                    <a href="quiz.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center">
+                        <i class="fas fa-clipboard-check mr-2"></i>Assessment
+                    </a>
+                    <a href="colleges.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center">
+                        <i class="fas fa-university mr-2"></i>College
+                    </a>
+                    <a href="scholarships.html" class="text-gray-600 hover:text-purple-600 transition duration-300 flex items-center">
+                        <i class="fas fa-award mr-2"></i>Scholarship
+                    </a>
+                </div>
+                
+                <!-- User Profile & Notifications -->
+                  <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <button class="text-gray-600 hover:text-purple-600 transition duration-300 relative">
+                            <i class="fas fa-bell text-lg"></i>
+                            <span id="notificationCount" class="notification-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 cursor-pointer group">
+                        <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div class="hidden md:block">
+                            <p id="userName" class="text-sm font-semibold text-gray-800">Loading...</p>
+                            <p class="text-xs text-gray-500">Student</p>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 group-hover:text-purple-600 transition duration-300"></i>
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div class="gradient-bg rounded-2xl text-white p-8 mb-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <h1 id="welcomeMessage" class="text-3xl md:text-4xl font-bold mb-2">Welcome back! 👋</h1>
+                <p id="motivationalMessage" class="text-purple-100 text-lg">Loading your progress...</p>
+                <div class="mt-6 flex flex-wrap gap-4">
+                    <button onclick="continueLastActivity()" class="bg-white text-purple-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300 shadow-lg">
+                        <i class="fas fa-play mr-2"></i>
+                        <span id="continueButtonText">Continue Learning</span>
+                    </button>
+                    <button onclick="startNewAssessment()" class="bg-purple-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-900 transition duration-300 shadow-lg">
+                        <i class="fas fa-clipboard-check mr-2"></i>
+                        <a href="quiz.html">Take Assessment</a>
+                    </button>
+                </div>
+            </div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white bg-opacity-10 rounded-full -mr-32 -mt-32 floating-animation"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-white bg-opacity-5 rounded-full -ml-24 -mb-24"></div>
+        </div>
+
+        <!-- Real-time Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Study Streak</p>
+                        <p id="studyStreak" class="text-3xl font-bold text-gray-900">0</p>
+                        <p id="streakChange" class="text-sm text-green-600 mt-1">
+                            <i class="fas fa-fire"></i> Keep it up!
+                        </p>
+                    </div>
+                    <div class="bg-orange-100 p-4 rounded-full">
+                        <i class="fas fa-fire text-orange-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Today's Progress</p>
+                        <p id="todayProgress" class="text-3xl font-bold text-gray-900">0%</p>
+                        <p id="progressChange" class="text-sm text-blue-600 mt-1">
+                            <i class="fas fa-chart-line"></i> <span id="progressTime">0 min</span> studied
+                        </p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded-full">
+                        <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Achievements</p>
+                        <p id="achievementCount" class="text-3xl font-bold text-gray-900">0</p>
+                        <p id="achievementChange" class="text-sm text-yellow-600 mt-1">
+                            <i class="fas fa-trophy"></i> <span id="newAchievements">0 new</span>
+                        </p>
+                    </div>
+                    <div class="bg-yellow-100 p-4 rounded-full">
+                        <i class="fas fa-trophy text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Overall Score</p>
+                        <p id="overallScore" class="text-3xl font-bold text-gray-900">0</p>
+                        <p id="scoreChange" class="text-sm text-green-600 mt-1">
+                            <i class="fas fa-arrow-up"></i> <span id="scoreIncrease">+0</span> this week
+                        </p>
+                    </div>
+                    <div class="bg-green-100 p-4 rounded-full">
+                        <i class="fas fa-star text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Subject Progress -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Your Learning Progress</h2>
+                <button onclick="refreshProgress()" class="text-purple-600 hover:text-purple-700 font-medium flex items-center">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh
+                </button>
+            </div>
+            
+            <div id="subjectCards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Dynamic subject cards will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Recent Activities -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Recent Activities</h2>
+                        <button onclick="loadMoreActivities()" class="text-purple-600 hover:text-purple-700 font-medium">Load More</button>
+                    </div>
+                    
+                    <div id="recentActivities" class="space-y-4">
+                        <!-- Dynamic activities will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Live Recommendations -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        Smart Recommendations
+                    </h3>
+                    <div id="recommendations" class="space-y-3">
+                        <!-- Dynamic recommendations will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Live Achievements -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-medal text-yellow-500 mr-2"></i>
+                        Recent Achievements
+                    </h3>
+                    <div id="recentAchievements" class="space-y-3">
+                        <!-- Dynamic achievements will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Dynamic Schedule -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-calendar text-blue-500 mr-2"></i>
+                        Today's Schedule
+                    </h3>
+                    <div id="todaySchedule" class="space-y-3">
+                        <!-- Dynamic schedule will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Activity Indicator -->
+    <div id="activityIndicator" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hidden">
+        <i class="fas fa-circle pulse-animation mr-2"></i>
+        <span id="activityText">Activity detected...</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white"></i>
+                    </div>
+                    <span class="text-lg font-bold text-gray-800">ShikshaDisha</span>
+                </div>
+                <p class="text-sm text-gray-600">© 2024 ShikshaDisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dynamic Dashboard System
+        class DynamicDashboard {
+            constructor() {
+                this.userData = this.initializeUserData();
+                this.activityTimer = null;
+                this.lastActivity = Date.now();
+                this.studySession = {
+                    startTime: null,
+                    currentSubject: null,
+                    timeSpent: 0
+                };
+                
+                this.init();
+            }
+
+            initializeUserData() {
+                // Check if user data exists, if not create default
+                let userData = JSON.parse(localStorage.getItem('shikshaDisha_userData') || '{}');
+                
+                if (!userData.name) {
+                    userData = {
+                        name: 'Student',
+                        studyStreak: Math.floor(Math.random() * 15) + 1,
+                        totalStudyTime: Math.floor(Math.random() * 500) + 100,
+                        achievements: Math.floor(Math.random() * 20) + 5,
+                        overallScore: Math.floor(Math.random() * 400) + 600,
+                        subjects: {
+                            aptitude: {
+                                progress: Math.floor(Math.random() * 40) + 30,
+                                timeSpent: Math.floor(Math.random() * 50) + 20,
+                                lastAccessed: Date.now() - Math.random() * 86400000
+                            },
+                            science: {
+                                progress: Math.floor(Math.random() * 40) + 25,
+                                timeSpent: Math.floor(Math.random() * 45) + 15,
+                                lastAccessed: Date.now() - Math.random() * 86400000
+                            },
+                            math: {
+                                progress: Math.floor(Math.random() * 50) + 40,
+                                timeSpent: Math.floor(Math.random() * 60) + 30,
+                                lastAccessed: Date.now() - Math.random() * 86400000
+                            }
+                        },
+                        dailyGoal: 120, // minutes
+                        todayStudyTime: Math.floor(Math.random() * 60),
+                        lastLoginDate: new Date().toDateString(),
+                        activities: [],
+                        notifications: 5
+                    };
+                    this.saveUserData(userData);
+                }
+                
+                return userData;
+            }
+
+            init() {
+                this.updateUI();
+                this.startActivityTracking();
+                this.simulateRealTimeUpdates();
+                this.generateDynamicContent();
+                
+                // Update every 30 seconds
+                setInterval(() => {
+                    this.updateRealTimeStats();
+                }, 30000);
+                
+                // Generate new activities periodically
+                setInterval(() => {
+                    this.generateRandomActivity();
+                }, 120000); // Every 2 minutes
+            }
+
+            updateUI() {
+                // Update user name
+                document.getElementById('userName').textContent = this.userData.name;
+                
+                // Update welcome message
+                const hour = new Date().getHours();
+                let greeting = 'Good morning';
+                if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+                else if (hour >= 17) greeting = 'Good evening';
+                
+                document.getElementById('welcomeMessage').textContent = 
+                    `${greeting}, ${this.userData.name}! 👋`;
+                
+                // Update motivational message based on progress
+                this.updateMotivationalMessage();
+                
+                // Update stats
+                this.updateStats();
+                
+                // Update subject cards
+                this.updateSubjectCards();
+                
+                // Update activities
+                this.updateRecentActivities();
+                
+                // Update recommendations
+                this.updateRecommendations();
+                
+                // Update achievements
+                this.updateAchievements();
+                
+                // Update schedule
+                this.updateSchedule();
+            }
+
+            updateMotivationalMessage() {
+                const messages = [
+                    "You're making great progress! Keep up the excellent work.",
+                    "Every step forward is progress. You've got this!",
+                    "Your dedication is inspiring. Continue your learning journey!",
+                    "Knowledge is power, and you're building yours every day!",
+                    "Success is the sum of small efforts. You're on the right track!"
+                ];
+                
+                const avgProgress = Object.values(this.userData.subjects)
+                    .reduce((sum, subject) => sum + subject.progress, 0) / 3;
+                
+                let message = messages[Math.floor(Math.random() * messages.length)];
+                
+                if (avgProgress > 80) {
+                    message = "Outstanding progress! You're almost there!";
+                } else if (avgProgress > 60) {
+                    message = "Great momentum! Keep pushing forward!";
+                } else if (avgProgress < 30) {
+                    message = "Every expert was once a beginner. Start your journey today!";
+                }
+                
+                document.getElementById('motivationalMessage').textContent = message;
+            }
+
+            updateStats() {
+                // Study Streak
+                document.getElementById('studyStreak').textContent = this.userData.studyStreak;
+                
+                // Today's Progress
+                const progressPercent = Math.min(100, (this.userData.todayStudyTime / this.userData.dailyGoal) * 100);
+                document.getElementById('todayProgress').textContent = Math.round(progressPercent) + '%';
+                document.getElementById('progressTime').textContent = this.userData.todayStudyTime + ' min';
+                
+                // Achievements
+                document.getElementById('achievementCount').textContent = this.userData.achievements;
+                document.getElementById('newAchievements').textContent = 
+                    Math.floor(Math.random() * 3) + ' new';
+                
+                // Overall Score
+                document.getElementById('overallScore').textContent = this.userData.overallScore;
+                document.getElementById('scoreIncrease').textContent = 
+                    '+' + (Math.floor(Math.random() * 50) + 10);
+            }
+
+            updateSubjectCards() {
+                const container = document.getElementById('subjectCards');
+                const subjects = [
+                    {
+                        key: 'aptitude',
+                        name: 'Aptitude',
+                        icon: 'fas fa-brain',
+                        color: 'blue',
+                        description: 'Logical reasoning and quantitative skills'
+                    },
+                    {
+                        key: 'science',
+                        name: 'Basic Science',
+                        icon: 'fas fa-flask',
+                        color: 'green',
+                        description: 'Physics, Chemistry, and Biology fundamentals'
+                    },
+                    {
+                        key: 'math',
+                        name: 'Basic Math',
+                        icon: 'fas fa-calculator',
+                        color: 'purple',
+                        description: 'Algebra, Geometry, and Calculus basics'
+                    }
+                ];
+
+                container.innerHTML = subjects.map(subject => {
+                    const data = this.userData.subjects[subject.key];
+                    const isActive = Date.now() - data.lastAccessed < 3600000; // Active if accessed within 1 hour
+                    
+                    return `
+                        <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer ${isActive ? 'ring-2 ring-' + subject.color + '-500' : ''}" 
+                             onclick="dashboard.startStudySession('${subject.key}')">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="bg-${subject.color}-100 p-3 rounded-full relative">
+                                    <i class="${subject.icon} text-${subject.color}-600 text-xl"></i>
+                                    ${isActive ? '<div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full pulse-animation"></div>' : ''}
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-${subject.color}-600">${data.progress}%</p>
+                                    <p class="text-sm text-gray-500">Progress</p>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">${subject.name}</h3>
+                            <p class="text-sm text-gray-600 mb-4">${subject.description}</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                                <div class="bg-${subject.color}-600 h-2 rounded-full transition-all duration-500" 
+                                     style="width: ${data.progress}%"></div>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-500">
+                                <span>${data.timeSpent}h completed</span>
+                                <span class="text-${subject.color}-600 font-medium">
+                                    ${isActive ? 'Active now' : this.getTimeAgo(data.lastAccessed)}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            updateRecentActivities() {
+                const container = document.getElementById('recentActivities');
+                
+                // Generate recent activities if none exist
+                if (!this.userData.activities || this.userData.activities.length === 0) {
+                    this.generateInitialActivities();
+                }
+                
+                const activities = this.userData.activities.slice(0, 5);
+                
+                container.innerHTML = activities.map(activity => `
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition duration-300 slide-in">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-${activity.color}-100 rounded-lg flex items-center justify-center">
+                                    <i class="${activity.icon} text-${activity.color}-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">${activity.title}</h4>
+                                    <p class="text-sm text-gray-600">${activity.description}</p>
+                                    <div class="flex items-center mt-2">
+                                        <span class="text-xs text-gray-500">${this.getTimeAgo(activity.timestamp)}</span>
+                                        ${activity.progress ? `
+                                            <div class="w-20 bg-gray-200 rounded-full h-1 ml-3">
+                                                <div class="bg-${activity.color}-600 h-1 rounded-full" style="width: ${activity.progress}%"></div>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-2">${activity.progress}%</span>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="dashboard.continueActivity('${activity.id}')" 
+                                    class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+                                ${activity.action || 'Continue'}
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateRecommendations() {
+                const container = document.getElementById('recommendations');
+                const recommendations = this.generateSmartRecommendations();
+                
+                container.innerHTML = recommendations.map(rec => `
+                    <div class="p-3 bg-${rec.color}-50 rounded-lg border border-${rec.color}-200 cursor-pointer hover:bg-${rec.color}-100 transition duration-300"
+                         onclick="dashboard.followRecommendation('${rec.type}')">
+                        <div class="flex items-center space-x-3">
+                            <i class="${rec.icon} text-${rec.color}-600"></i>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">${rec.title}</p>
+                                <p class="text-xs text-gray-600">${rec.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateAchievements() {
+                const container = document.getElementById('recentAchievements');
+                const achievements = this.generateRecentAchievements();
+                
+                container.innerHTML = achievements.map(achievement => `
+                    <div class="flex items-center space-x-3 p-3 bg-${achievement.color}-50 rounded-lg">
+                        <div class="w-10 h-10 bg-${achievement.color}-100 rounded-full flex items-center justify-center">
+                            <i class="${achievement.icon} text-${achievement.color}-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">${achievement.title}</p>
+                            <p class="text-xs text-gray-600">${achievement.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateSchedule() {
+                const container = document.getElementById('todaySchedule');
+                const schedule = this.generateTodaySchedule();
+                
+                container.innerHTML = schedule.map(item => `
+                    <div class="flex items-center justify-between p-3 border-l-4 border-${item.color}-500 bg-${item.color}-50 rounded-r-lg">
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">${item.title}</p>
+                            <p class="text-xs text-gray-600">${item.time}</p>
+                        </div>
+                        <i class="fas fa-${item.status === 'completed' ? 'check-circle text-green-600' : 'clock text-' + item.color + '-600'}"></i>
+                    </div>
+                `).join('');
+            }
+
+            startActivityTracking() {
+                // Track user interactions
+                document.addEventListener('click', () => this.recordActivity());
+                document.addEventListener('scroll', () => this.recordActivity());
+                document.addEventListener('keypress', () => this.recordActivity());
+                
+                // Track page visibility
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.pauseStudySession();
+                    } else {
+                        this.resumeStudySession();
+                    }
+                });
+            }
+
+            recordActivity() {
+                this.lastActivity = Date.now();
+                this.showActivityIndicator();
+                
+                // Update study time if in session
+                if (this.studySession.startTime) {
+                    this.updateStudyTime();
+                }
+            }
+
+            showActivityIndicator() {
+                const indicator = document.getElementById('activityIndicator');
+                const activities = [
+                    'Learning in progress...',
+                    'Great focus detected!',
+                    'Knowledge building...',
+                    'Progress tracking...'
+                ];
+                
+                document.getElementById('activityText').textContent = 
+                    activities[Math.floor(Math.random() * activities.length)];
+                
+                indicator.classList.remove('hidden');
+                
+                clearTimeout(this.activityTimer);
+                this.activityTimer = setTimeout(() => {
+                    indicator.classList.add('hidden');
+                }, 3000);
+            }
+
+            simulateRealTimeUpdates() {
+                // Simulate progress updates
+                setInterval(() => {
+                    if (Math.random() < 0.3) { // 30% chance every interval
+                        this.simulateProgressUpdate();
+                    }
+                }, 45000);
+                
+                // Simulate new notifications
+                setInterval(() => {
+                    if (Math.random() < 0.2) { // 20% chance
+                        this.addNotification();
+                    }
+                }, 60000);
+            }
+
+            simulateProgressUpdate() {
+                const subjects = Object.keys(this.userData.subjects);
+                const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+                
+                // Small progress increment
+                this.userData.subjects[randomSubject].progress += Math.random() * 2;
+                this.userData.subjects[randomSubject].progress = Math.min(100, this.userData.subjects[randomSubject].progress);
+                
+                this.saveUserData(this.userData);
+                this.updateSubjectCards();
+                
+                // Show notification
+                this.showProgressNotification(randomSubject);
+            }
+
+            generateInitialActivities() {
+                const activities = [
+                    {
+                        id: 'act1',
+                        title: 'Logical Reasoning Practice',
+                        description: 'Complete pattern recognition exercises',
+                        icon: 'fas fa-brain',
+                        color: 'blue',
+                        progress: 75,
+                        timestamp: Date.now() - 1800000,
+                        action: 'Continue'
+                    },
+                    {
+                        id: 'act2',
+                        title: 'Chemistry Fundamentals',
+                        description: 'Study atomic structure and bonding',
+                        icon: 'fas fa-flask',
+                        color: 'green',
+                        progress: 45,
+                        timestamp: Date.now() - 3600000,
+                        action: 'Resume'
+                    },
+                    {
+                        id: 'act3',
+                        title: 'Algebra Assessment',
+                        description: 'Take practice test on quadratic equations',
+                        icon: 'fas fa-calculator',
+                        color: 'purple',
+                        timestamp: Date.now() - 7200000,
+                        action: 'Start'
+                    }
+                ];
+                
+                this.userData.activities = activities;
+                this.saveUserData(this.userData);
+            }
+
+            generateSmartRecommendations() {
+                const recommendations = [];
+                
+                // Analyze weak subjects
+                const subjects = this.userData.subjects;
+                const weakestSubject = Object.keys(subjects).reduce((a, b) => 
+                    subjects[a].progress < subjects[b].progress ? a : b
+                );
+                
+                recommendations.push({
+                    type: 'weak_subject',
+                    title: `Focus on ${weakestSubject.charAt(0).toUpperCase() + weakestSubject.slice(1)}`,
+                    description: 'Your weakest area needs attention',
+                    icon: 'fas fa-target',
+                    color: 'red'
+                });
+                
+                // Study streak recommendation
+                if (this.userData.studyStreak < 7) {
+                    recommendations.push({
+                        type: 'streak',
+                        title: 'Build Your Study Streak',
+                        description: 'Study daily to improve retention',
+                        icon: 'fas fa-fire',
+                        color: 'orange'
+                    });
+                }
+                
+                // Assessment recommendation
+                recommendations.push({
+                    type: 'assessment',
+                    title: 'Take Practice Test',
+                    description: 'Assess your current knowledge level',
+                    icon: 'fas fa-clipboard-check',
+                    color: 'blue'
+                });
+                
+                return recommendations.slice(0, 3);
+            }
+
+            generateRecentAchievements() {
+                const achievements = [
+                    {
+                        title: 'Quick Learner!',
+                        description: 'Completed 5 lessons today',
+                        icon: 'fas fa-bolt',
+                        color: 'yellow'
+                    },
+                    {
+                        title: 'Perfect Score!',
+                        description: 'Aced the logic quiz',
+                        icon: 'fas fa-star',
+                        color: 'green'
+                    },
+                    {
+                        title: 'Consistent Effort!',
+                        description: `${this.userData.studyStreak} day study streak`,
+                        icon: 'fas fa-fire',
+                        color: 'orange'
+                    }
+                ];
+                
+                return achievements;
+            }
+
+            generateTodaySchedule() {
+                const now = new Date();
+                const schedule = [
+                    {
+                        title: 'Morning Review',
+                        time: '9:00 AM - 10:00 AM',
+                        color: 'blue',
+                        status: now.getHours() > 10 ? 'completed' : 'pending'
+                    },
+                    {
+                        title: 'Practice Session',
+                        time: '2:00 PM - 3:30 PM',
+                        color: 'green',
+                        status: now.getHours() > 15 ? 'completed' : 'pending'
+                    },
+                    {
+                        title: 'Assessment Prep',
+                        time: '7:00 PM - 8:00 PM',
+                        color: 'purple',
+                        status: now.getHours() > 20 ? 'completed' : 'pending'
+                    }
+                ];
+                
+                return schedule;
+            }
+
+            // Interactive Functions
+            startStudySession(subject) {
+                this.studySession = {
+                    startTime: Date.now(),
+                    currentSubject: subject,
+                    timeSpent: 0
+                };
+                
+                this.userData.subjects[subject].lastAccessed = Date.now();
+                this.saveUserData(this.userData);
+                this.updateSubjectCards();
+                
+                this.showActivityIndicator();
+                document.getElementById('activityText').textContent = 
+                    `Started studying ${subject.charAt(0).toUpperCase() + subject.slice(1)}!`;
+            }
+
+            continueActivity(activityId) {
+                const activity = this.userData.activities.find(a => a.id === activityId);
+                if (activity) {
+                    this.showActivityIndicator();
+                    document.getElementById('activityText').textContent = 
+                        `Continuing ${activity.title}...`;
+                    
+                    // Simulate progress
+                    setTimeout(() => {
+                        if (activity.progress) {
+                            activity.progress = Math.min(100, activity.progress + Math.random() * 10 + 5);
+                            this.saveUserData(this.userData);
+                            this.updateRecentActivities();
+                        }
+                    }, 2000);
+                }
+            }
+
+            followRecommendation(type) {
+                this.showActivityIndicator();
+                
+                const messages = {
+                    weak_subject: 'Opening focused practice session...',
+                    streak: 'Starting daily study routine...',
+                    assessment: 'Preparing assessment...'
+                };
+                
+                document.getElementById('activityText').textContent = 
+                    messages[type] || 'Following recommendation...';
+            }
+
+            updateRealTimeStats() {
+                // Simulate small changes in stats
+                if (Math.random() < 0.5) {
+                    this.userData.todayStudyTime += Math.floor(Math.random() * 5) + 1;
+                    this.userData.overallScore += Math.floor(Math.random() * 3) + 1;
+                    this.saveUserData(this.userData);
+                    this.updateStats();
+                }
+            }
+
+            generateRandomActivity() {
+                const activities = [
+                    'New practice questions available',
+                    'Weekly assessment ready',
+                    'Study reminder: Math session',
+                    'Achievement unlocked!',
+                    'Progress milestone reached'
+                ];
+                
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                this.addNotification(activity);
+            }
+
+            addNotification(message = 'New update available') {
+                this.userData.notifications = (this.userData.notifications || 0) + 1;
+                document.getElementById('notificationCount').textContent = this.userData.notifications;
+                this.saveUserData(this.userData);
+                
+                // Show brief notification
+                this.showActivityIndicator();
+                document.getElementById('activityText').textContent = message;
+            }
+
+            getTimeAgo(timestamp) {
+                const now = Date.now();
+                const diff = now - timestamp;
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                
+                if (days > 0) return `${days}d ago`;
+                if (hours > 0) return `${hours}h ago`;
+                if (minutes > 0) return `${minutes}m ago`;
+                return 'Just now';
+            }
+
+            saveUserData(data) {
+                localStorage.setItem('shikshaDisha_userData', JSON.stringify(data));
+            }
+        }
+
+        // Global functions
+        let dashboard;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            dashboard = new DynamicDashboard();
+        });
+
+        function continueLastActivity() {
+            dashboard.showActivityIndicator();
+            document.getElementById('activityText').textContent = 'Loading last activity...';
+        }
+
+        function startNewAssessment() {
+            dashboard.showActivityIndicator();
+            document.getElementById('activityText').textContent = 'Preparing assessment...';
+            setTimeout(() => {
+                window.open('assessment.html', '_blank', 'noopener,noreferrer');
+            }, 1500);
+        }
+
+        function refreshProgress() {
+            dashboard.updateUI();
+            dashboard.showActivityIndicator();
+            document.getElementById('activityText').textContent = 'Progress refreshed!';
+        }
+
+        function loadMoreActivities() {
+            dashboard.generateRandomActivity();
+            dashboard.updateRecentActivities();
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98332ee795a3ff73',t:'MTc1ODU1ODU4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
